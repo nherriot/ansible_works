@@ -131,3 +131,26 @@ and:
 	ssh noisy_atom_admin@104.236.14.123
 
 
+## Step 4 - List The Home Directory Of The New User
+
+Almost finished. We just need to list the home directory of our newly created users. We can use the old command in step 1 to get this 
+information but just use the new user ID's.
+
+	/> ansible NoisyAtomUbuntu14  -a "ls /home/noisy_atom_admin" -u noisy_atom_admin --ask-pas
+	SSH password: 
+	104.236.14.123 | SUCCESS | rc=0 >>
+
+	/>ansible NoisyAtomUbuntu14  -a "ls /home/noisy_atom_cms" -u noisy_atom_cms --ask-pas
+	SSH password: 
+	104.236.14.123 | SUCCESS | rc=0 >>
+
+
+
+## Step 5 -  Remove A User Using Ansible Add Hock Commands
+
+Finally let us remove our new users to clean out the system.
+
+	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_admin state=absent remove=yes" -u root
+
+
+	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_admin state=absent remove=yes" -u root
