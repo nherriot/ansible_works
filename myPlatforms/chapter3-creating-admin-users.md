@@ -44,9 +44,90 @@ remote machine. Hence arguments for the command are:
 	
 This shows the sys logs on the remote machine.
 
+
 ## Step 2 - Add A User Using Ansible Add Hock Commands
 
-Next we will add an admin user and a cms user with admin name noisy_atom_admin and cms name noisy_atom_cms.
+Next we will add an admin user and a cms user. You can use any user name you like for this. For this example I'm using the names:
+* noisy_atom_admin
+* noisy_atom_cms
+
+We need to add those users with a password. However we can't pass our password in plain text. We need to encrypt the password before
+sending it over to our Linux server. So there are a few steps here. We need to encrypte our password. Then use that encrypted name to 
+create our user on the remote server.
+
+### Step 2.1 - Encrypt A Password
+
+To encrypt our password we user the Linux utility 'openssl'. For this example we will give our users the password 'hello'. Hence to
+encrypt the word 'hello' do:
+
+	/> openssl passwd -crypt hello
+	/> kQMKsfd71mvis
+	
+### Step 2.2 - Create Our Users
+
+Our arguments are:
+name=noisy_atom_admin
+password=kQMKsfd71mvis
+group=admin
+createhome=yes
+generate_ssh_key=yes
+
+where	-a = arguments
+		-m = ansible module
+		-u = the user ansible will connect to the server as.
+
+	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_admin password=kQMKsfd71mvis  group=admin createhome=yes generate_ssh_key=yes " -u root
+	104.236.14.123 | SUCCESS => {
+		"changed": true, 
+		"comment": "", 
+		"createhome": true, 
+		"group": 110, 
+		"home": "/home/noisy_atom_admin", 
+		"name": "noisy_atom_admin", 
+		"password": "NOT_LOGGING_PASSWORD", 
+		"shell": "", 
+		"ssh_fingerprint": "2048 10:61:51:38:c1:3e:d3:83:dd:2b:90:7e:5f:96:2c:0d  ansible-generated on NoisyAtomUbuntu14 (RSA)", 
+		"ssh_key_file": "/home/noisy_atom_admin/.ssh/id_rsa", 
+		"ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDL7aE4ozR7uvO3QvxE9p1Wy3Ew1QVJlSaQBwT58rhQ2xsK2HrT9/OnOEAyDoE1/dmAOE8cLNV8kkhYfhqAIzZbboagz390kosbnOYYZ5h8FnjDM/7l3dMHc3fXk1A43+RvB0Xd+BmgYSEh4rbtMVeiW6jZTLtWPRJd0p4KaQxgPg9KOzMGWQg8PHanmBCGcVQy5r9xeMw45D52HAHp/8rQ6+f54bZMGWuiNxUFjWpe/K2+dfR+BSWxvEP1Ya43m/L6a4qsh1/lfx0QnlL61LgrnlCfEQWsrutRvH8kjInhrC3lBpytGqu2yeOBh7fZgWir5cMqHvBpKU0h5x4KVWiv ansible-generated on NoisyAtomUbuntu14", 
+		"state": "present", 
+		"system": false, 
+		"uid": 1004
+	}
 
 
-	/> ansible NoisyAtomUbuntu14 -s -m
+Now create the second user 'noisy_atom_cms'
+
+
+	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_cms password=kQMKsfd71mvis  group=admin createhome=yes generate_ssh_key=yes " -u root
+	
+
+## Step 3 - Manually SSH Onto The Machine As The New User
+
+For this step we can check simply by logging onto the remote server as 'root' and then switching user to the new user accounts.
+So from your terminal window do:
+
+	/> ssh root@<your_ip_address>
+	/> root@NoisyAtomUbuntu14:~# whoami
+	root
+	/> su noisy_atom_admin
+	
+	To run a command as administrator (user "root"), use "sudo <command>".
+	See "man sudo_root" for details.
+	noisy_atom_admin@NoisyAtomUbuntu14:/root$
+	
+	/> su noisy_atom_cms
+
+	Password: 
+	To run a command as administrator (user "root"), use "sudo <command>".
+	See "man sudo_root" for details.
+	noisy_atom_cms@NoisyAtomUbuntu14:/root$	
+	
+Finaly we can try and SSH directly from our remote server as the new users. So from a fresh teminal window do:
+
+	/> ssh noisy_atom_cms@104.236.14.123
+	
+and:
+
+	ssh noisy_atom_admin@104.236.14.123
+
+
