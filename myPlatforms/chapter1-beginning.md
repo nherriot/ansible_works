@@ -49,7 +49,7 @@ Check your version of Ansible:
 # Step 4 - Setup Ansible For Your Project
 
 Ansible will have an ansible.cfg and host file in the directory /etc/ansible. Most books and tutorials will get you to alter those
-files. This guide will copy thos file into your project directory so that they are used directly for that project.
+files. This guide will copy those file into your project directory so that they are used directly for that project.
 
 You need to copy your hosts and ansible.cfg to your project directory. The platforms directory will be local to our system, not in the 
 ansible etc folder. This means that we can have different configurations for different projects. 

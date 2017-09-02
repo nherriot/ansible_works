@@ -56,5 +56,31 @@ Run the command:
 			"ping": "pong"
 		}
 
+## Step 4 - Test Free Memory Query
+
+Run the command:
+
+	/>	ansible NoisyAtomUbuntu14 -a 'free -m' -u root
+		104.236.14.123 | SUCCESS | rc=0 >>
+					 total       used       free     shared    buffers     cached
+		Mem:           488        451         36         14        124        204
+		-/+ buffers/cache:        122        365
+		Swap:            0          0          0
 
 
+## Step 5 - Test Free Disk Space Query
+
+Run the command:
+
+	/>	ansible NoisyAtomUbuntu14 -a "df -h" -u root
+		104.236.14.123 | SUCCESS | rc=0 >>
+		Filesystem      Size  Used Avail Use% Mounted on
+		udev            228M  4.0K  228M   1% /dev
+		tmpfs            49M  396K   49M   1% /run
+		/dev/vda1        20G  2.1G   17G  11% /
+		none            4.0K     0  4.0K   0% /sys/fs/cgroup
+		none            5.0M     0  5.0M   0% /run/lock
+		none            245M     0  245M   0% /run/shm
+		none            100M     0  100M   0% /run/user
+	
+	
