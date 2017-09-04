@@ -1,0 +1,95 @@
+# This file will add users cmsuser and adminuser, their passwords and directory structures. It then adds your public
+# key and adminuser to the list of sudoers. It then setups up the bashrc script for your users and has a task to setup
+# the SSH server to stop root access. This part is not active at the time of writing.
+# It requires that you have root access to the machine to run.
+# 1) Run the setup.yml script
+# To run:
+# />  ansible-playbook setup.yml  --ask-pass
+
+---
+- hosts: NoisyAtomUbuntu14
+  user: root
+
+  vars_files:
+  - vars/project_variables.yml
+
+  handlers:
+  - name: Restart ssh
+    service: name=ssh state=restarted
+
+
+  tasks:
+  # Add our admin and cms user to the system
+  - name: Setup | create user na_admin and na_cms
+    command: useradd -m {{ item }} creates=/home/{{ item }}
+    become: true
+    become_method: sudo
+    with_items:
+      - '{{adminuser}}'
+      - '{{cmsuser}}'
+
+  # Setup passwords for both user 'na_admin' and 'na_cms' on our chh-test server
+  - name: Setup | set passwords for na_admin and na_user
+    shell: usermod -p $(echo '{{ item.createpassword }}' | openssl passwd -1 -stdin) {{ item.createuser }}
+    become: true
+    become_method: sudo
+    with_items:
+      - { createpassword: '{{adminpassword}}', createuser: '{{adminuser}}' }
+      - { createpassword: '{{cmspassword}}', createuser: '{{cmsuser}}' }
+
+  # Add our admin user to the 'sudo' group so that he may have sudo privillages
+  - name: add our admin to the 'sudo' group
+    user: name={{ adminuser }} comment="Deploy User" groups="sudo,admin,{{ adminuser }}"
+    become: true
+
+  # Setup an public key for this remote machine by copying the public key of this machine to the remote machine.
+  # We need to have our id_rsa.pub file within the vars directory of this setup.yml file.
+  - name: Setup | authorized key upload
+    authorized_key: user={{ item }}
+      key="{{ lookup('file', 'vars/id_rsa.pub') }}"
+      path='/home/{{ item }}/.ssh/authorized_keys'
+      manage_dir=no
+    become: true
+    with_items:
+      - '{{adminuser}}'
+      - '{{cmsuser}}'
+
+  # Add our admin user to the 'sudo' users file and allow them to not require passwords for sudo access.
+  - name: Sudoers | update sudoers file and validate
+    lineinfile: "dest=/etc/sudoers
+      insertafter=EOF
+      line='{{ adminuser }} ALL=(ALL) NOPASSWD: ALL'
+      regexp='{{ adminuser }} ALL=(ALL) NOPASSWD: ALL'
+      state=present"
+    become: true
+
+  # Since this could be on a fresh Digital Ocean Machine we should ensure we setup a proper bash shell! And not that crap
+  # shell you normally get with no arrow up or tab complet commands. So lets do that for both users.
+  - name: Setup a bash shell for both users
+    shell: sudo usermod -s /bin/bash {{ item }}
+    become: true
+    become_method: sudo
+    with_items:
+      - '{{adminuser}}'
+      - '{{cmsuser}}'
+
+  # We need to stop a user loging in with root access via SSH. Someone could brute force attack our server on our root
+  # accont
+  #- name: Disallow root SSH access
+  #  lineinfile: dest=/etc/ssh/sshd_config
+  #            regexp="^PermitRootLogin"
+  #            line="PermitRootLogin no"
+  #            state=present
+  #  notify: Restart ssh
+
+
+  # if we have a variable setup in our vars directory to change our default SSH port it will change it otherwise it will
+  # leave the SSH port at 22
+  - name: Change ssh port if we have configured it in our vars directory.
+    lineinfile: dest=/etc/ssh/sshd_config
+      regexp="^Port\s"
+      line="Port {{ ssh_port }}"
+      state=present
+    notify: Restart ssh
+
+

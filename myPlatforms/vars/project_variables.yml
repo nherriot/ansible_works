@@ -1,0 +1,23 @@
+# Ansible Project Variables
+
+local_ssh_public_keys: ~/.ssh/id_rsa.pub					# This tells our playbook files where to get your ssh public key from
+ssh_port: 22												# If we set this variable our setup.yml file will use it to configure 
+# the remote servers SSH port
+
+rootuser: 'root'
+
+# Set the admin and cms user names with passwords.
+# TODO Add a vault file to inject passwords.
+adminuser: 'noisy_atom_admin'
+adminpassword: 'QK4ZK7fB8hQJnAHqgWUYM8ekhFBv4NugykgHfCRD'
+cmsuser: 'noisy_atom_cms'
+cmspassword: '5rtzFRmBFqhMAfskTuTw3Q5r23JVCELCNTqKobmy'
+
+
+# Set the data base name, user and password
+# TODO Add a vault file to inject database password.
+dbname: na_db_20022017                                   # this is used to setup the database name in postgres
+dbuser: na_db_user                                       # this is used to setup the database user in postres
+dbpassword: 9cobDTDa6N                                   # this is used to setup the database password TODO put this in a keepass file
+
+
