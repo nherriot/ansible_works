@@ -5,7 +5,7 @@
 # 1) You need to have a root user setup on your remote server
 # 2) The SSH private key on your local machine must be copied to the root user account on the 
 #	 remote machine. e.g. />  ssh-copy-id root@104.236.14.12
-#
+# 3) You need to have your 'hosts' and 'ansible.cfg' file in the same folder you run this file from
 
 ---
 - hosts: NoisyAtomUbuntu14

@@ -34,10 +34,70 @@ We will have 4 steps to do this. Which are:
 	  - name: ping the remote hosts
 		ping:
 
-This has the --- script line to let ansible know this is ansible commands. The next 2 lines identify the host to communicate with and
-the user to connect as.
-The vars_files tells ansible where to read it's global variables from.
-Tasks tell ansible what commands to run. We have a named task called 'ping the remote hosts' which simply runs the ping module on the
-remote server.
+This has the --- script line to let ansible know this is ansible commands. 
+The next 2 lines identify the host to communicate with and the user to connect as.
+
+The vars_files tells ansible where to read it's global variables from. In this file we do not read anything from the file. It's
+just in place for the next ansible playbook.
+
+Tasks tell ansible what commands to run. We have a named task called 'ping the remote hosts' which is simply a text name output
+to the screen. The final line with 'ping' runs the ping module on the remote server.
+
+To run the file use the ansible-playbook command i.e.
+
+	/> ansible-playbook simple_playbook_1.yml
+	__________________________
+	< PLAY [NoisyAtomUbuntu14] >
+	 --------------------------
+			\   ^__^
+			 \  (oo)\_______
+				(__)\       )\/\
+					||----w |
+					||     ||
+	 
+	ok: [104.236.14.123]
+	 ...
+	 ...
+	 ...
+	 ...
+	 ...
+	 ____________
+	< PLAY RECAP >
+	 ------------
+			\   ^__^
+			 \  (oo)\_______
+				(__)\       )\/\
+					||----w |
+					||     ||
+
+	104.236.14.123             : ok=2    changed=0    unreachable=0    failed=0
+
+
+
+## Step 2 - Create A Script To Create Your User With Hard Coded Passwords
+
+There is already a file created in this directory which is called 'simple_playbook_2.yml. In the simple_playbook_2.yml 
+file it contains a 'hosts', 'vars' and 'task' section. The 'hosts' and 'vars' section are the same as the preivous script.
+
+This file takes it's user names from the /vars/project_variables.yml file. The users are called:
+* noisy_atom_admin
+* noisy_atom_cms
+
+To reference those users you use a format similar to jinja 2 (i.e. {{name}}). The tasks are broken down into: 
+
+* Add our admin and cms user to the system
+* Setup passwords for users 'adminuser' and 'cmsuser' on the remote server
+* Add our admin user to the 'sudo' group so that he may have sudo privillages
+* Setup an public key for this remote machine by copying the public key of this machine to the remote machine.
+* We need to have our id_rsa.pub file within your home folder.
+* Add our admin user to the 'sudo' users file and allow them to not require passwords for sudo access.
+* Since this could be on a fresh Digital Ocean Machine we should ensure we setup a proper bash shell!
+* We need to stop a user loging in with root access via SSH.
+* Change our default SSH port if it's set in the project_variables.yml file, otherwise leave the SSH port at 22
+
+
+
+
+
 
 
