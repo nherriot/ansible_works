@@ -95,8 +95,47 @@ To reference those users you use a format similar to jinja 2 (i.e. {{name}}). Th
 * We need to stop a user loging in with root access via SSH.
 * Change our default SSH port if it's set in the project_variables.yml file, otherwise leave the SSH port at 22
 
+Each section in the 'tasks' section have a title and comments describing what they do.
+To run the script do:
+
+	/> ansible-playbook simple_playbook_2.yml
 
 
+
+## Step 3 - Create A Script To Create Your User With Hard Coded Passwords And Restart SSH To Stop Root Login
+
+There is already a file created in this directory which is called 'simple_playbook_3.yml. In the simple_playbook_3.yml 
+file it contains a 'hosts', 'vars', 'handlers' and 'task' section. The 'hosts' and 'vars' section are the same as the 
+preivous script. The handlers is the new section.
+
+This script is the same as the previous except for the 'handlers' section. The 'handlers' section is for holding
+functions that are used more than once by scripts. Handlers are described like:
+
+	handlers:
+	  - name: Restart ssh
+		service: name=ssh state=restarted
+
+This has a 'title' called 'name' which is just the name printed to your screen while running. It invokes the service 
+module which restarts 'ssh' on the remote server. To invoke this handler from a 'task' you do:
+
+  - name: Change ssh port if we have configured it in our vars directory.
+    lineinfile: dest=/etc/ssh/sshd_config
+      regexp="^Port\s"
+      line="Port {{ ssh_port }}"
+      state=present
+    notify: Restart ssh
+
+The task above has a line 'notify: Restart ssh'. This specifies the name of the handler to call. The only difference to
+this script than version 2 is the handler to restart SSH via the handler - and the section which changes the port number
+that SSH users. It also has a section to block 'root' from using SSH, but this is commented out at the time of writing.
+
+To run the script do:
+
+	/> ansible-playbook simple_playbook_3.yml
+
+
+
+## Step 4 - Allow your script to take data from an encrypted 'vault' file.
 
 
 

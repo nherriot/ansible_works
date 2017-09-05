@@ -1,7 +1,8 @@
 # This file will connect to a remote server called NoisyAtomUbuntu14 (taken from your hosts file) and  will add users
 # 'admin' and 'cms', their passwords and directory structures. It then adds your public key on your host computer and 
 # copy for those users to the remote computer. The adminuser is added to the list of sudoers. It then setups up the bashrc 
-# script for your users
+# script for your users and has a task to setup the SSH server to stop root access. This part is not active at the time of 
+# writing.
 
 # **** Prerequisits ****
 # 1) You need to have a root user setup on your remote server
@@ -16,6 +17,11 @@
 
   vars_files:
   - vars/project_variables.yml
+
+  handlers:
+  - name: Restart ssh
+    service: name=ssh state=restarted
+
 
   tasks:
   # Add our admin and cms user to the system
@@ -71,4 +77,24 @@
     with_items:
       - '{{adminuser}}'
       - '{{cmsuser}}'
+
+  # We need to stop a user loging in with root access via SSH. Someone could brute force attack our server on our root
+  # accont
+  #- name: Disallow root SSH access
+  #  lineinfile: dest=/etc/ssh/sshd_config
+  #            regexp="^PermitRootLogin"
+  #            line="PermitRootLogin no"
+  #            state=present
+  #  notify: Restart ssh
+
+
+  # if we have a variable setup in our vars directory to change our default SSH port it will change it otherwise it will
+  # leave the SSH port at 22
+  - name: Change ssh port if we have configured it in our vars directory.
+    lineinfile: dest=/etc/ssh/sshd_config
+      regexp="^Port\s"
+      line="Port {{ ssh_port }}"
+      state=present
+    notify: Restart ssh
+
 
