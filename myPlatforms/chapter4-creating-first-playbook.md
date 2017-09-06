@@ -137,6 +137,57 @@ To run the script do:
 
 ## Step 4 - Allow your script to take data from an encrypted 'vault' file.
 
+There is already a file created in this directory which is called 'simple_playbook_4.yml. In the simple_playbook_4.yml 
+file it has exactly the same content for tasks as the previous version. This file however includes different variable
+files. It pulls in to variable files within the /vars/ directory:
+
+		vars_files:
+			- vars/project_variables_no_passwords.yml
+			- vars/protected_vars.yml
+
+The first variable file 'project_variables_no_passwords.yml' contains the same as the previous version execpt for:
+* cmsuser_password
+* adminuser_password
+* db_password
+The second file 'protected_vars.yml' is an encrypted file, which has been encrypted by ansible-vault. To run this 
+ansible file you have to pass the ansible vault password. There are many ways to do this, but for the purpose of
+this tutorial we will pass it as a command line parameter. Hence to run this ansible script use the normal 'ansible-playbook'
+command but pass in the command line flag '--ask-vault-pass' e.g.
+
+	/>  ansible-playbook simple_playbook_4.yml --ask-vault-pass
+	: Vault password
+
+Use the vault password:
+
+	test2017
+	
+
+### View The Encrypted File
+
+To view the encrypted file and edit it first set an environment variable to change the default editor ansible will
+use ( unless you like 'vi'! ). Then run the ansible-vault edit command
+
+	/>  export EDITOR=nano
+	/>  ansible-vault edit vars/protected_vars.yml
+	Vault password:	
+
+Now use the vault password as before.
+
+
+### Create Encrypted File
+
+To create a new encrypted file and add values via an editor do:
+
+	/>  ansible-vault create foo.yml
+	New Vault password:
+	
+Add your new password for the vault. In the file your parameter lists should look like:	
+	
+		adminpassword: 'secret'
+		cmspassword: 'secret2'
+		dbpassword: a_secret
+
+You can find out more information here: http://docs.ansible.com/ansible/latest/playbooks_vault.html
 
 
 
