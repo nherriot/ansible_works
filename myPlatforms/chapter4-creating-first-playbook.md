@@ -118,7 +118,7 @@ functions that are used more than once by scripts. Handlers are described like:
 This has a 'title' called 'name' which is just the name printed to your screen while running. It invokes the service 
 module which restarts 'ssh' on the remote server. To invoke this handler from a 'task' you do:
 
-  - name: Change ssh port if we have configured it in our vars directory.
+    name: Change ssh port if we have configured it in our vars directory.
     lineinfile: dest=/etc/ssh/sshd_config
       regexp="^Port\s"
       line="Port {{ ssh_port }}"
@@ -127,7 +127,7 @@ module which restarts 'ssh' on the remote server. To invoke this handler from a 
 
 The task above has a line 'notify: Restart ssh'. This specifies the name of the handler to call. The only difference to
 this script than version 2 is the handler to restart SSH via the handler - and the section which changes the port number
-that SSH users. It also has a section to block 'root' from using SSH, but this is commented out at the time of writing.
+that SSH uses. It also has a section to block 'root' from using SSH, but this is commented out at the time of writing.
 
 To run the script do:
 
@@ -139,16 +139,18 @@ To run the script do:
 
 There is already a file created in this directory which is called 'simple_playbook_4.yml. In the simple_playbook_4.yml 
 file it has exactly the same content for tasks as the previous version. This file however includes different variable
-files. It pulls in to variable files within the /vars/ directory:
+files. It pulls variables from files within the /vars/ directory:
 
 		vars_files:
 			- vars/project_variables_no_passwords.yml
 			- vars/protected_vars.yml
 
-The first variable file 'project_variables_no_passwords.yml' contains the same as the previous version execpt for:
+The variable file 'project_variables_no_passwords.yml' we are using does not contain:
+
 * cmsuser_password
 * adminuser_password
 * db_password
+
 The second file 'protected_vars.yml' is an encrypted file, which has been encrypted by ansible-vault. To run this 
 ansible file you have to pass the ansible vault password. There are many ways to do this, but for the purpose of
 this tutorial we will pass it as a command line parameter. Hence to run this ansible script use the normal 'ansible-playbook'

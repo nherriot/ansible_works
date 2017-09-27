@@ -16,8 +16,8 @@ cmspassword: '5rtzFRmBFqhMAfskTuTw3Q5r23JVCELCNTqKobmy'
 
 # Set the data base name, user and password
 # TODO Add a vault file to inject database password.
-dbname: na_db_20022017                                   # this is used to setup the database name in postgres
-dbuser: na_db_user                                       # this is used to setup the database user in postres
-dbpassword: 9cobDTDa6N                                   # this is used to setup the database password TODO put this in a keepass file
+dbname: noisyAtom_201709                                 # this is used to setup the database name in postgres
+dbuser: noisyAtom_user                                   # this is used to setup the database user in postres
+
 
 
