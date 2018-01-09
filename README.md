@@ -12,5 +12,7 @@ pull variables into a script. It uses those variables in an ansible playbook.
 Readers are urged to have a remote server to test this with. I used digital oceans for testing my scripts.
 (i.e. IaaS - Infrastructure as a Service)
 
+Open up the /myPlatforms folder inside there are 4 documents called 'chapter1...', 'chapter2...' etc.. And 4 yml files that corrospond to each chapter. The reader can follow each chapter and should end up with a perfectly running ansible setup and test files to use against a target remote machine.
+
 Enjoy!
 
