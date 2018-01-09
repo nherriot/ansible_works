@@ -21,13 +21,13 @@ To create your public/private key on your machine do this:
 
 	
 	
-# Step 2 - Installing Ansible
+## Step 2 - Installing Ansible
 
 You don't need to install Ansible the hard way, you can just to a sudo apt-get install ansible. But we will install the latest and 
 greatest version so that we get any fixes. First update your ppa keys for the aptitude package manager. This allows you to get the 
 most up to date version:
 
-## Step 3
+## Step 3 - Setup Local Machine To Pull Ansibles Latest Software
 
 Add Ansible PPA keys to the aptitude package manager:
 	/>  sudo apt-add-repository ppa:ansible/ansible
@@ -46,7 +46,7 @@ Check your version of Ansible:
 	  python version = 2.7.12 (default, Nov 19 2016, 06:48:10) [GCC 5.4.0 20160609]	
 
 
-# Step 4 - Setup Ansible For Your Project
+## Step 4 - Setup Ansible For Your Project
 
 Ansible will have an ansible.cfg and host file in the directory /etc/ansible. Most books and tutorials will get you to alter those
 files. This guide will copy those file into your project directory so that they are used directly for that project.
