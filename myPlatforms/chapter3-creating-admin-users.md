@@ -126,9 +126,19 @@ Finaly we can try and SSH directly from our remote server as the new users. So f
 
 	/> ssh noisy_atom_cms@104.236.14.123
 	
-and:
+which should show:
+	
+	adminuser2@139.59.164.130's password: 
+	Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 4.4.0-66-generic x86_64)
 
-	ssh noisy_atom_admin@104.236.14.123
+ 	* Documentation:  https://help.ubuntu.com/
+
+  	System information as of Wed Jan 10 22:52:28 UTC 2018
+	........
+	........
+	
+	Last login: *** *** ** 22:52:30 20** from ***.***.***.***
+	$
 
 
 ## Step 4 - List The Home Directory Of The New User
@@ -152,5 +162,20 @@ Finally let us remove our new users to clean out the system.
 
 	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_admin state=absent remove=yes" -u root
 
+which should show something like:
 
-	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_admin state=absent remove=yes" -u root
+	[DEPRECATION WARNING]: The sudo command line option has been deprecated in favor of the "become" command line arguments. 	This feature will be removed in version 2.6. Deprecation
+ 	warnings can be disabled by setting deprecation_warnings=False in ansible.cfg.
+	139.59.164.130 | SUCCESS => {
+    	"changed": true, 
+    	"force": false, 
+    	"name": "adminuser", 
+    	"remove": true, 
+    	"state": "absent", 
+    	"stderr": "userdel: adminuser mail spool (/var/mail/adminuser) not found\n", 
+    	"stderr_lines": [
+        "userdel: adminuser mail spool (/var/mail/adminuser2) not found"
+    		]
+	}
+
+It's over to you now! Enjoy...
