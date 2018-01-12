@@ -28,17 +28,21 @@ greatest version so that we get any fixes. First update your ppa keys for the ap
 most up to date version:
 
 Add Ansible PPA keys to the aptitude package manager:
+
 	/>  sudo apt-add-repository ppa:ansible/ansible
 	
 ## Step 3 - Setup Local Machine To Pull Ansibles Latest Software
 
 Update the new packages of your host machine:
+
 	/>  sudo apt-get update
 	
 Install Ansible:
+
 	/>	sudo apt-get install ansible
 	
 Check your version of Ansible:
+
 	/>  ansible --version
 	ansible 2.3.1.0
 	  config file = /etc/ansible/ansible.cfg
