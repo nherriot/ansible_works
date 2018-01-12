@@ -27,11 +27,11 @@ You don't need to install Ansible the hard way, you can just to a sudo apt-get i
 greatest version so that we get any fixes. First update your ppa keys for the aptitude package manager. This allows you to get the 
 most up to date version:
 
-## Step 3 - Setup Local Machine To Pull Ansibles Latest Software
-
 Add Ansible PPA keys to the aptitude package manager:
 	/>  sudo apt-add-repository ppa:ansible/ansible
 	
+## Step 3 - Setup Local Machine To Pull Ansibles Latest Software
+
 Update the new packages of your host machine:
 	/>  sudo apt-get update
 	
