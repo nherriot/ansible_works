@@ -30,12 +30,15 @@ ask for the password. Normally ansible will not allow you to type passwords and 
 
 In Chapter 1 you create a public/private key for your host machine. We need to copy the public key to the remote machine.
 Install your public key onto your remote server. If you like you can see your new keys in dir:
+
 	~/.ssh/id_rsa.pub
 	
 Install the keys with the ssh-copy-id command like:
+
 	/>  ssh-copy-id root@104.236.14.12
 	
 Check your key is installed by trying to SSH to the machine:
+
 	/>  ssh root@104.236.14.12
 
 You will not be asked for your password! Great stuff!!!
