@@ -59,6 +59,7 @@ You need to copy your hosts and ansible.cfg to your project directory. The platf
 ansible etc folder. This means that we can have different configurations for different projects. 
 
 Create a 'myplatforms' directory in your project directory and copy the ansible files to it.
+
 	/> cd ~ & mkdir myPlatforms
 	/>  cd /etc/ansible
 	/>  cp hosts ~/myPlatforms/
