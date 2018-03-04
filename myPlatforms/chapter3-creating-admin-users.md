@@ -99,7 +99,13 @@ Now create the second user 'noisy_atom_cms'
 
 
 	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_cms password=kQMKsfd71mvis  group=admin createhome=yes generate_ssh_key=yes " -u root
-	
+
+### Note: Using Ansible playbooks from different machines
+
+When you are running ansible playbooks from different machines they will not have the SSH public key that has been created automatically from the Ansible 'user' module used above. What needs to be done is to copy the SSH key of the new machine onto the remove system with the SSH Coppy command. Most importantly you **must** copy the SSH public key for the user that being used to run the commands on the remote machine. In our case we are done this as user *noisy_atom_cms* so the command would be:
+
+	/> ssh-copy-id noisy_atom_cms@104.236.14.12
+
 
 ## Step 3 - Manually SSH Onto The Machine As The New User
 
