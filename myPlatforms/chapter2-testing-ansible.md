@@ -46,7 +46,7 @@ You will not be asked for your password! Great stuff!!!
 
 ## Step 3 - Test Ansible Ping
 
-We are not going to test Ansible Ping again. This time we will NOT need to use '--ask-pas' as the SSH protocol will use the public
+We are going to test Ansible Ping again. This time we will NOT need to use '--ask-pas' as the SSH protocol will use the public
 keys copied onto the server in Step 2 during encryption. Ansible can now communicate to that server as the 'root' user without
 asking for password.
 
