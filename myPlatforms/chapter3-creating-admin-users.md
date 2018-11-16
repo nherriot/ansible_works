@@ -67,13 +67,14 @@ encrypt the word 'hello' do:
 
 Our arguments are:
 
-   name=noisy_atom_admin
-   password=kQMKsfd71mvis
-   group=admin
-   createhome=yes
-   generate_ssh_key=yes
+	name=noisy_atom_admin
+	password=kQMKsfd71mvis
+	group=admin
+	createhome=yes
+	generate_ssh_key=yes
 
 where:
+
 	-a = arguments
 	-m = ansible module
 	-u = the user ansible will connect to the server as.
