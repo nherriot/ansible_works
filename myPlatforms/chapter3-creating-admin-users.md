@@ -52,7 +52,7 @@ Next we will add an admin user and a cms user. You can use any user name you lik
 * noisy_atom_cms
 
 We need to add those users with a password. However we can't pass our password in plain text. We need to encrypt the password before
-sending it over to our Linux server. So there are a few steps here. We need to encrypte our password. Then use that encrypted name to 
+sending it over to our Linux server. So there are a few steps here. We need to encrypt our password. Then use that encrypted name to 
 create our user on the remote server.
 
 ### Step 2.1 - Encrypt A Password
