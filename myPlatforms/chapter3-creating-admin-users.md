@@ -66,15 +66,17 @@ encrypt the word 'hello' do:
 ### Step 2.2 - Create Our Users
 
 Our arguments are:
-name=noisy_atom_admin
-password=kQMKsfd71mvis
-group=admin
-createhome=yes
-generate_ssh_key=yes
 
-where	-a = arguments
-		-m = ansible module
-		-u = the user ansible will connect to the server as.
+   name=noisy_atom_admin
+   password=kQMKsfd71mvis
+   group=admin
+   createhome=yes
+   generate_ssh_key=yes
+
+where:
+	-a = arguments
+	-m = ansible module
+	-u = the user ansible will connect to the server as.
 
 	/> ansible NoisyAtomUbuntu14 -s -m user -a "name=noisy_atom_admin password=kQMKsfd71mvis  group=admin createhome=yes generate_ssh_key=yes " -u root
 	104.236.14.123 | SUCCESS => {
