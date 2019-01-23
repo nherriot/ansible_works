@@ -22,7 +22,7 @@ We will have 4 steps to do this. Which are:
 * Create a dir called /vars
 * Creata a file called project_variables.yml in the /vars/ directory
 * In the simple_playbook_1.yml file copy this script into it.
-
+```
 	---
 	- hosts: NoisyAtomUbuntu14
 	  user: root
@@ -33,7 +33,7 @@ We will have 4 steps to do this. Which are:
 	  tasks:
 	  - name: ping the remote hosts
 		ping:
-
+```
 This has the --- script line to let ansible know this is ansible commands. 
 The next 2 lines identify the host to communicate with and the user to connect as.
 
