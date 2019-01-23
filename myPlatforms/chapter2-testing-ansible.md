@@ -25,6 +25,22 @@ Run the command:
 The command is 'ansible'. The module is 'ping'. The user we are using is -u. We also pass --ask-pas which tells ansible to
 ask for the password. Normally ansible will not allow you to type passwords and requires public/private key on the remote server.
 
+**Note**
+If you see an error pertaining to python not being found on the target machine, then it may be that you are deploying to a machine that has python 2 and python 3 installed, where python 3 is the default option on that machine. The error might look like this:
+
+	178.62.102.65 | FAILED! => {
+	    "changed": false, 
+	    "module_stderr": "Shared connection to 178.62.102.65 closed.\r\n", 
+	    "module_stdout": "/bin/sh: 1: /usr/bin/python: not found\r\n", 
+	    "msg": "MODULE FAILURE\nSee stdout/stderr for the exact error", 
+	    "rc": 127
+	}
+
+In this case change your *hosts* (inventory) file to call the specific version of python on the target machine. The *'hosts'* file should look something like this:
+	
+	[NoisyAtom-Portal]
+	178.62.31.182 ansible_python_interpreter=/usr/bin/python3
+
 
 ## Step 2 - Get Your Public Key Onto The Remote Server
 
